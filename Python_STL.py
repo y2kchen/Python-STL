@@ -181,6 +181,21 @@ def divide_mesh_by_segments_and_quadrants(your_mesh, segments):
             if np.any((triangle[:, 2] >= z_start) & (triangle[:, 2] < z_end)):
                 segment_triangles.append(triangle)
         quadrants = divide_into_quadrants(segment_triangles)
+        #identify the absolute minimal x and y coordinates of the segment
+        min_abs_x = float('inf')
+        min_abs_y = float('inf')
+        for triangle in segment_triangles:
+            for point in triangle:
+                x, y, _ = point
+                if -0.2 <= x <= 0.2:
+                    min_abs_y = min(min_abs_y, abs(y))
+                if -0.2 <= y <= 0.2:
+                    min_abs_x = min(min_abs_x, abs(x))
+        #set up the rough constrains for the segment
+        with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output1.txt', 'a') as g:
+            g.write(f'constraint {100+i+1} nonpositive // seg_{i+1}  \n')
+            g.write(f'formula: x^2/{min_abs_x}^2+y^2/{min_abs_y}^2 = 1  \n')
+            g.write(f'\n')
         print(f"Z Segment {i+1}: {z_start} to {z_end}")
         fitted_surfaces = []
         for j, quadrant in enumerate(quadrants):
@@ -210,6 +225,8 @@ if __name__ == "__main__":
     your_mesh = mesh.Mesh(np.zeros(unique_vectors.shape[0], dtype=mesh.Mesh.dtype))
     your_mesh.vectors = unique_vectors
     #save the mesh with the duplicate vertices removed in ASCII format
+    with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output1.txt', 'w') as g:
+        pass
     with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output.txt', 'w') as f:
         pass
     your_mesh.save('E:\\IRPI LLC\\Engineering - Syringe Debubbler\\CFSC-D alt .75 mm opening-OK compact.stl', mode=stl.Mode.ASCII)
