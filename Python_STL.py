@@ -55,7 +55,7 @@ def analyze_stl(file_path):
     z_range = z_max - z_min
     segment_size = z_range / 10
     segments = [(z_min + i * segment_size, z_min + (i + 1) * segment_size) for i in range(10)]
-    return your_mesh, z_min, z_max, segments
+    return your_mesh, z_min, z_max, segment_size, segments
 
 def remove_duplicate_vertices(your_mesh):
     #remove duplicate faces
@@ -182,20 +182,29 @@ def divide_mesh_by_segments_and_quadrants(your_mesh, segments):
                 segment_triangles.append(triangle)
         quadrants = divide_into_quadrants(segment_triangles)
         #identify the absolute minimal x and y coordinates of the segment
-        min_abs_x = float('inf')
-        min_abs_y = float('inf')
-        for triangle in segment_triangles:
-            for point in triangle:
-                x, y, _ = point
-                if -0.2 <= x <= 0.2:
-                    min_abs_y = min(min_abs_y, abs(y))
-                if -0.2 <= y <= 0.2:
-                    min_abs_x = min(min_abs_x, abs(x))
+        if i<9:
+            min_abs_x = float('inf')
+            min_abs_y = float('inf')
+            for triangle in segment_triangles:
+                for point in triangle:
+                    x, y, _ = point
+                    #find the minimal y in a narrow range of x
+                    if -0.2 <= x <= 0.2:
+                        min_abs_y = min(min_abs_y, abs(y))
+                    #find the minimal x in a narrow range of y
+                    if -0.2 <= y <= 0.2:
+                        min_abs_x = min(min_abs_x, abs(x))
         #set up the rough constrains for the segment
         with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output1.txt', 'a') as g:
-            g.write(f'constraint {100+i+1} nonpositive // seg_{i+1}  \n')
-            g.write(f'formula: x^2/{min_abs_x}^2+y^2/{min_abs_y}^2 = 1  \n')
-            g.write(f'\n')
+            if i < 9:
+                g.write(f'constraint {100+i+1} nonnegative // seg_{i+1}  \n')
+                g.write(f'formula: x^2/{min_abs_x}^2+y^2/{min_abs_y}^2 = 1  \n')
+                g.write(f'\n')
+            if i == 9:
+                g.write(f'constraint {100+i+1} nonpositive // seg_{i+1}  \n')
+                g.write(f'formula: x^2/{min_abs_x}^2+y^2/{min_abs_y}^2 + (z-({z_min + i * segment_size}))^2/{segment_size}^2 = 1  \n')
+                g.write(f'\n')
+        #set up the fine constrains for the segment
         print(f"Z Segment {i+1}: {z_start} to {z_end}")
         fitted_surfaces = []
         for j, quadrant in enumerate(quadrants):
@@ -216,8 +225,9 @@ def divide_mesh_by_segments_and_quadrants(your_mesh, segments):
         plot_quadrants(quadrants, fitted_surfaces)
 
 if __name__ == "__main__":
-    file_path = 'E:\IRPI LLC\Engineering - Syringe Debubbler\CFSC-D alt .75 mm opening-OK.stl'  # Replace with your STL file path
-    your_mesh, z_min, z_max, segments = analyze_stl(file_path)
+    file_path = 'E:\IRPI LLC\Engineering - Syringe Debubbler\CFSC-D alt .75 mm opening-OK rough mesh.stl'  # Replace with your STL file path
+    #file_path = 'E:\IRPI LLC\Engineering - Syringe Debubbler\CFSC-D alt .75 mm opening-OK.stl'  # Replace with your STL file path
+    your_mesh, z_min, z_max, segment_size, segments = analyze_stl(file_path)
     #your_mesh.vectors = remove_duplicate_vertices(your_mesh)
     #old unique_vectors = remove_duplicate_faces(your_mesh)
     #old your_mesh.vectors = unique_vectors
@@ -229,7 +239,8 @@ if __name__ == "__main__":
         pass
     with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output.txt', 'w') as f:
         pass
-    your_mesh.save('E:\\IRPI LLC\\Engineering - Syringe Debubbler\\CFSC-D alt .75 mm opening-OK compact.stl', mode=stl.Mode.ASCII)
+    your_mesh.save('E:\\IRPI LLC\\Engineering - Syringe Debubbler\\CFSC-D alt .75 mm opening-OK rough mesh compact.stl', mode=stl.Mode.ASCII)
+    #your_mesh.save('E:\\IRPI LLC\\Engineering - Syringe Debubbler\\CFSC-D alt .75 mm opening-OK compact.stl', mode=stl.Mode.ASCII)
     #divide the mesh into segments and quadrants
     divide_mesh_by_segments_and_quadrants(your_mesh, segments)
 
