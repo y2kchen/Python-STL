@@ -5,6 +5,17 @@
     {
       "AbsoluteMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|C:\\Python-STL\\Python_STL.py||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|solutionrelative:Python_STL.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|C:\\Python-STL\\half_surface_fit.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|solutionrelative:half_surface_fit.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|Python-STL||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|C:\\Python-STL\\Python-STL.pyproj||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|888888fd-3c4a-40da-aefb-5ac10f5e8b30",
+      "RelativeMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|solutionrelative:Python-STL.pyproj||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|888888fd-3c4a-40da-aefb-5ac10f5e8b30"
     }
   ],
   "DocumentGroupContainers": [
@@ -28,7 +39,32 @@
               "RelativeDocumentMoniker": "Python_STL.py",
               "ToolTip": "C:\\Python-STL\\Python_STL.py",
               "RelativeToolTip": "Python_STL.py",
-              "ViewState": "AQIAALAAAAAAAAAAAAAYwMcAAAA6AAAA",
+              "ViewState": "AQIAAK0AAAAAAAAAAAAYwMMAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2024-06-13T23:16:35.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Python-STL",
+              "DocumentMoniker": "C:\\Python-STL\\Python-STL.pyproj",
+              "RelativeDocumentMoniker": "Python-STL.pyproj",
+              "ToolTip": "C:\\Python-STL\\Python-STL.pyproj",
+              "RelativeToolTip": "Python-STL.pyproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-06-13T18:48:37.376Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "half_surface_fit.py",
+              "DocumentMoniker": "C:\\Python-STL\\half_surface_fit.py",
+              "RelativeDocumentMoniker": "half_surface_fit.py",
+              "ToolTip": "C:\\Python-STL\\half_surface_fit.py",
+              "RelativeToolTip": "half_surface_fit.py",
+              "ViewState": "AQIAAKMAAAAAAAAAAAAswLUAAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2024-06-07T17:58:27.195Z",
               "EditorCaption": ""
