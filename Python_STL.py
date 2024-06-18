@@ -230,7 +230,7 @@ def divide_mesh_by_segments_and_quadrants(your_mesh, segments):
         plot_quadrants(quadrants, fitted_surfaces)
 
 if __name__ == "__main__":
-    #file_path = 'E:\IRPI LLC\Engineering - Syringe Debubbler\CFSC-D alt .75 mm opening-OK rough mesh.stl'  # Replace with your STL file path
+    #file_path = 'E:\IRPI LLC\Engineering - Syringe Debubbler\CFSC-D alt .75 mm opening-OK rough mesh origin at dome base.stl'  # Replace with your STL file path
     file_path = 'E:\IRPI LLC\Engineering - Syringe Debubbler\CFSC-D alt .75 mm opening-OK.stl'  # Replace with your STL file path
     your_mesh, z_min, z_max, segment_size, segments = analyze_stl(file_path)
     #your_mesh.vectors = remove_duplicate_vertices(your_mesh)
@@ -244,7 +244,7 @@ if __name__ == "__main__":
         pass
     with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output.txt', 'w') as f:
         pass
-    #your_mesh.save('E:\\IRPI LLC\\Engineering - Syringe Debubbler\\CFSC-D alt .75 mm opening-OK rough mesh compact.stl', mode=stl.Mode.ASCII)
+    #your_mesh.save('E:\\IRPI LLC\\Engineering - Syringe Debubbler\\CFSC-D alt .75 mm opening-OK rough mesh origin at dome base compact.stl', mode=stl.Mode.ASCII)
     your_mesh.save('E:\\IRPI LLC\\Engineering - Syringe Debubbler\\CFSC-D alt .75 mm opening-OK compact.stl', mode=stl.Mode.ASCII)
     #divide the mesh into segments and quadrants
     divide_mesh_by_segments_and_quadrants(your_mesh, segments)
