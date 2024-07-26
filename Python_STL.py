@@ -241,9 +241,11 @@ if __name__ == "__main__":
     your_mesh.vectors = unique_vectors
     #save the mesh with the duplicate vertices removed in ASCII format
     with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output1.txt', 'w') as g:
-        pass
+        g.write(f'//Ellipse as a roughly defined constraint \n')
+    #    pass
     with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output.txt', 'w') as f:
-        pass
+        f.write(f'//Fit equation as a finely defined constraint \n')
+    #   pass
     #your_mesh.save('E:\\IRPI LLC\\Engineering - Syringe Debubbler\\CFSC-D alt .75 mm opening-OK rough mesh origin at dome base compact.stl', mode=stl.Mode.ASCII)
     your_mesh.save('E:\\IRPI LLC\\Engineering - Syringe Debubbler\\CFSC-D alt .75 mm opening-OK compact.stl', mode=stl.Mode.ASCII)
     #divide the mesh into segments and quadrants

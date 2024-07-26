@@ -1,4 +1,4 @@
-#goal: I have an STL file and I would like to divide the surface into patches and for each patch I would like to use surface fitting to find an expression.
+#goal: To divide the mesh into two halves and fit each half with a surface.
 
 import numpy as np
 from stl import mesh
@@ -187,6 +187,7 @@ def plot_halves(half1, half2, fitted_surfaces):
 
 def divide_mesh_by_half(your_mesh):
     #divide the mesh into two halves, one half is x>=0 and the other half is x<0
+    #x-axis is along the semi-minoraxis in top view.
     half1 = []
     half2 = []
     for triangle in your_mesh.vectors:

@@ -1,3 +1,5 @@
+#goal: To fit the entire mesh with a surface.
+
 import numpy as np
 from stl import mesh
 from scipy.optimize import curve_fit
@@ -141,6 +143,7 @@ if __name__ == "__main__":
     #divide the mesh into segments and quadrants
     #divide_mesh_by_segments_and_quadrants(your_mesh, segments)
     fitted_surfaces = []
+    #fit the surface
     popt1, x_coords1, y_coords1, z_coords1 = fit_surface_to_mesh(your_mesh)
     if popt1 is not None:
         with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output_part_1.txt', 'a') as f:
