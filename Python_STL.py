@@ -27,6 +27,7 @@
 # I can use the codeclimate to measure the quality.
 # I can use the codacy to measure the quality
        
+from pickle import GLOBAL
 import numpy as np
 from stl import mesh
 from scipy.optimize import curve_fit
@@ -46,17 +47,24 @@ def analyze_stl(file_path):
     #find the mean of the y coordinates
     y_coords = your_mesh.vectors[:, :, 1].flatten()
     y_mean = np.mean(y_coords)
-    # subtract x_mean from x coordinates of the mesh
+    # subtract y_mean from y coordinates of the mesh
     your_mesh.y -= y_mean
     # find the min and max of the z coordinates
     z_coords = your_mesh.vectors[:, :, 2].flatten()
     z_min = np.min(z_coords)
+    print(f"Z minimum: {z_min}")
     z_max = np.max(z_coords)
+    print(f"Z maximum: {z_max}")
     z_range = z_max - z_min
-    segment_n = 20
-    segment_size = z_range / segment_n
-    segments = [(z_min + i * segment_size, z_min + (i + 1) * segment_size) for i in range(segment_n)]
-    return your_mesh, z_min, z_max, segment_size, segments
+    # segment_size = z_range / segment_n
+    # 68.65 is the length below the dome base, 9.5 is the dome length
+    segment_size_1 = 68.65/15
+    segment_size_2 = 9.5/2
+    segments_1 = [(z_min + i * segment_size_1, z_min + (i + 1) * segment_size_1) for i in range(15)]
+    segments_2 = [(68.65 + i * segment_size_2, 68.65 + (i+1) * segment_size_2) for i in range(2)]
+    # combine segments_1 and segmens_2 into segments
+    segments = segments_1 + segments_2
+    return your_mesh, z_min, z_max, segment_size_2, segments
 
 def remove_duplicate_vertices(your_mesh):
     #remove duplicate faces
@@ -176,6 +184,7 @@ def plot_quadrants(quadrants, fitted_surfaces):
     #plt.show()
 
 def divide_mesh_by_segments_and_quadrants(your_mesh, segments):
+    global segment_n
     for i, (z_start, z_end) in enumerate(segments):
         segment_triangles = []
         for triangle in your_mesh.vectors:
@@ -183,7 +192,7 @@ def divide_mesh_by_segments_and_quadrants(your_mesh, segments):
                 segment_triangles.append(triangle)
         quadrants = divide_into_quadrants(segment_triangles)
         #identify the absolute minimal x and y coordinates of the segment
-        if i<19:
+        if i<segment_n-1:
             min_abs_x = float('inf')
             min_abs_y = float('inf')
             for triangle in segment_triangles:
@@ -196,14 +205,14 @@ def divide_mesh_by_segments_and_quadrants(your_mesh, segments):
                     if -0.2 <= y <= 0.2:
                         min_abs_x = min(min_abs_x, abs(x))
         #set up the rough constrains for the segment
-        with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output1.txt', 'a') as g:
-            if i < 19:
+        with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output_by_seg.txt', 'a') as g:
+            if i < segment_n-1:
                 g.write(f'constraint {200+i+1} nonpositive // seg_{i+1}  \n')
                 g.write(f'formula: x^2/{min_abs_x}^2+y^2/{min_abs_y}^2 = 1  \n')
                 g.write(f'\n')
-            if i == 19:
+            if i == segment_n-1:
                 g.write(f'constraint {200+i+1} nonpositive // seg_{i+1}  \n')
-                g.write(f'formula: x^2/{min_abs_x}^2+y^2/{min_abs_y}^2 + (z-({z_min + i * segment_size}))^2/{segment_size}^2 = 1  \n')
+                g.write(f'formula: x^2/{min_abs_x}^2+y^2/{min_abs_y}^2 + (z-({z_max - segment_size_2}))^2/{segment_size_2}^2 = 1  \n')
                 g.write(f'\n')
         #set up the fine constrains for the segment
         print(f"Z Segment {i+1}: {z_start} to {z_end}")
@@ -211,12 +220,17 @@ def divide_mesh_by_segments_and_quadrants(your_mesh, segments):
         for j, quadrant in enumerate(quadrants):
             print(f"  Quadrant {j+1}: {len(quadrant)} triangles")
             if quadrant:
-                popt, x_coords, y_coords, z_coords = fit_surface_to_quadrant(quadrant)
+                result = fit_surface_to_quadrant(quadrant)
+                if result is not None:
+                    popt, x_coords, y_coords, z_coords = result
+                else:
+                    print("fit_surface_to_quadrant returned None")
+        #popt, x_coords, y_coords, z_coords = fit_surface_to_quadrant(quadrant)
                 if popt is not None:
-                    with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output.txt', 'a') as f:
-                        if i < 18:
+                    with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output_by_seg_n_quad.txt', 'a') as f:
+                        if i < segment_n-2:
                             f.write(f'constraint {8*i+j+1} nonnegative // seg_{i+1}_quad_{j+1}  \n')
-                        if i >= 18:
+                        if i >= segment_n-2:
                             f.write(f'constraint {8*i+j+1} nonpositive // seg_{i+1}_quad_{j+1}  \n')                            
                         #f.write(f'constraint {8*i+j+1} nonpositive // seg_{i+1}_quad_{j+1}  \n')
                         f.write(f'formula: z = {popt[0]}* x^2 + {popt[1]}* y^2 + {popt[2]}* x * y + {popt[3]}* x + {popt[4]}* y + {popt[5]}  \n')
@@ -232,7 +246,8 @@ def divide_mesh_by_segments_and_quadrants(your_mesh, segments):
 if __name__ == "__main__":
     #file_path = 'E:\IRPI LLC\Engineering - Syringe Debubbler\CFSC-D alt .75 mm opening-OK rough mesh origin at dome base.stl'  # Replace with your STL file path
     file_path = 'E:\IRPI LLC\Engineering - Syringe Debubbler\CFSC-D alt .75 mm opening-OK.stl'  # Replace with your STL file path
-    your_mesh, z_min, z_max, segment_size, segments = analyze_stl(file_path)
+    segment_n = 17
+    your_mesh, z_min, z_max, segment_size_2, segments = analyze_stl(file_path)
     #your_mesh.vectors = remove_duplicate_vertices(your_mesh)
     #old unique_vectors = remove_duplicate_faces(your_mesh)
     #old your_mesh.vectors = unique_vectors
@@ -240,10 +255,10 @@ if __name__ == "__main__":
     your_mesh = mesh.Mesh(np.zeros(unique_vectors.shape[0], dtype=mesh.Mesh.dtype))
     your_mesh.vectors = unique_vectors
     #save the mesh with the duplicate vertices removed in ASCII format
-    with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output1.txt', 'w') as g:
+    with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output_by_seg.txt', 'w') as g:
         g.write(f'//Ellipse as a roughly defined constraint \n')
     #    pass
-    with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output.txt', 'w') as f:
+    with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output_by_seg_n_quad.txt', 'w') as f:
         f.write(f'//Fit equation as a finely defined constraint \n')
     #   pass
     #your_mesh.save('E:\\IRPI LLC\\Engineering - Syringe Debubbler\\CFSC-D alt .75 mm opening-OK rough mesh origin at dome base compact.stl', mode=stl.Mode.ASCII)

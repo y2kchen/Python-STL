@@ -1,4 +1,5 @@
-#goal: To fit the entire mesh with a surface.
+#goal: To fit a part of the mesh with a surface.
+# the part is based on the drawing in Solidworks.
 
 import numpy as np
 from stl import mesh
@@ -14,16 +15,19 @@ def analyze_stl(file_path):
     # find the mean of the x coordinates
     x_coords = your_mesh.vectors[:, :, 0].flatten()
     x_mean = np.mean(x_coords)
-    # subtract x_mean from x coordinates of the mesh
-    your_mesh.x -= x_mean
+    x_min = np.min(x_coords)
+    # subtract x_min from x coordinates of the mesh
+    #your_mesh.x -= x_min
     #find the mean of the y coordinates
     y_coords = your_mesh.vectors[:, :, 1].flatten()
     y_mean = np.mean(y_coords)
-    # subtract x_mean from x coordinates of the mesh
-    your_mesh.y -= y_mean
+    y_min = np.min(y_coords)
+    # subtract y_min from y coordinates of the mesh
+    #your_mesh.y -= y_min
     # find the min and max of the z coordinates
     z_coords = your_mesh.vectors[:, :, 2].flatten()
     z_min = np.min(z_coords)
+    print(f"Z minimum: {z_min}")
     z_max = np.max(z_coords)
     z_range = z_max - z_min
     segment_size = z_range / 10
@@ -124,7 +128,9 @@ def plot_surface(your_mesh, fitted_surfaces):
 
 if __name__ == "__main__":
     #file_path = 'E:\IRPI LLC\Engineering - Syringe Debubbler\CFSC-D alt .75 mm opening-OK rough mesh.stl'  # Replace with your STL file path
-    file_path = 'E:\IRPI LLC\Engineering - Syringe Debubbler\CFSC-D alt .75 mm opening-OK -CY-part1.stl'  # Replace with your STL file path
+    #file_path = 'E:\IRPI LLC\Engineering - Syringe Debubbler\CFSC-D alt .75 mm opening-OK -CY-part3.stl'  # Replace with your STL file path
+    file_path = 'E:\IRPI LLC\Engineering - Syringe Debubbler\CFSC-D alt .75 mm opening-OK part4 fine.stl'  # Replace with your STL file path
+
     your_mesh, z_min, z_max, segment_size, segments = analyze_stl(file_path)
     #your_mesh.vectors = remove_duplicate_vertices(your_mesh)
     #old unique_vectors = remove_duplicate_faces(your_mesh)
@@ -139,7 +145,9 @@ if __name__ == "__main__":
     with open('E:\IRPI LLC\Engineering - Syringe Debubbler\output_part_1.txt', 'w') as f:
         pass
     #your_mesh.save('E:\\IRPI LLC\\Engineering - Syringe Debubbler\\CFSC-D alt .75 mm opening-OK rough mesh compact.stl', mode=stl.Mode.ASCII)
-    your_mesh.save('E:\\IRPI LLC\\Engineering - Syringe Debubbler\\CFSC-D alt .75 mm opening-OK -CY-part1 compact.stl', mode=stl.Mode.ASCII)
+    #your_mesh.save('E:\\IRPI LLC\\Engineering - Syringe Debubbler\\CFSC-D alt .75 mm opening-OK -CY-part3 compact.stl', mode=stl.Mode.ASCII)
+    your_mesh.save('E:\IRPI LLC\\Engineering - Syringe Debubbler\CFSC-D alt .75 mm opening-OK part4 fine compact.stl', mode=stl.Mode.ASCII)
+
     #divide the mesh into segments and quadrants
     #divide_mesh_by_segments_and_quadrants(your_mesh, segments)
     fitted_surfaces = []

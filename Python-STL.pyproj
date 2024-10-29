@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>7f2d73f1-75f1-4f61-a4e1-348fcf8eed1e</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>surface_part_fit.py</StartupFile>
+    <StartupFile>line_reverse.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -23,6 +23,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="half_surface_fit.py" />
+    <Compile Include="line_reverse.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Python_STL.py" />
     <Compile Include="surface_part_fit.py">
       <SubType>Code</SubType>
