@@ -3,15 +3,23 @@
   "WorkspaceRootPath": "C:\\Python-STL\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|C:\\Python-STL\\line_reverse.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|solutionrelative:line_reverse.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|C:\\Python-STL\\vertical_line_detection.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|solutionrelative:vertical_line_detection.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|Python-STL||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|C:\\Python-STL\\character_segmententation.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|solutionrelative:character_segmententation.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|C:\\Python-STL\\Python_STL.py||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|solutionrelative:Python_STL.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|Python-STL||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+      "AbsoluteMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|C:\\Python-STL\\line_reverse.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|solutionrelative:line_reverse.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7F2D73F1-75F1-4F61-A4E1-348FCF8EED1E}|Python-STL.pyproj|C:\\Python-STL\\half_surface_fit.py||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -50,6 +58,31 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "vertical_line_detection.py",
+              "DocumentMoniker": "C:\\Python-STL\\vertical_line_detection.py",
+              "RelativeDocumentMoniker": "vertical_line_detection.py",
+              "ToolTip": "C:\\Python-STL\\vertical_line_detection.py",
+              "RelativeToolTip": "vertical_line_detection.py",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAADMAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2024-11-05T21:15:48.529Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "character_segmententation.py",
+              "DocumentMoniker": "C:\\Python-STL\\character_segmententation.py",
+              "RelativeDocumentMoniker": "character_segmententation.py",
+              "ToolTip": "C:\\Python-STL\\character_segmententation.py",
+              "RelativeToolTip": "character_segmententation.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2024-11-05T21:17:02.652Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "line_reverse.py",
               "DocumentMoniker": "C:\\Python-STL\\line_reverse.py",
               "RelativeDocumentMoniker": "line_reverse.py",
@@ -57,12 +90,11 @@
               "RelativeToolTip": "line_reverse.py",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2024-10-29T19:43:36.94Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-29T19:43:36.94Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Python-STL",
               "DocumentMoniker": "C:\\Python-STL\\Python-STL.pyproj",
               "RelativeDocumentMoniker": "Python-STL.pyproj",
@@ -74,20 +106,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Python_STL.py",
               "DocumentMoniker": "C:\\Python-STL\\Python_STL.py",
               "RelativeDocumentMoniker": "Python_STL.py",
               "ToolTip": "C:\\Python-STL\\Python_STL.py",
               "RelativeToolTip": "Python_STL.py",
-              "ViewState": "AgIAADYAAAAAAAAAAAD4v7IAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAALIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2024-06-13T23:16:35.141Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-13T23:16:35.141Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "half_surface_fit.py",
               "DocumentMoniker": "C:\\Python-STL\\half_surface_fit.py",
               "RelativeDocumentMoniker": "half_surface_fit.py",
@@ -95,12 +126,11 @@
               "RelativeToolTip": "half_surface_fit.py",
               "ViewState": "AgIAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2024-06-07T17:58:27.195Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-07T17:58:27.195Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "surface_part_fit.py",
               "DocumentMoniker": "C:\\Python-STL\\surface_part_fit.py",
               "RelativeDocumentMoniker": "surface_part_fit.py",
