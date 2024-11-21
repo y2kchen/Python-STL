@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 # Load the image
-image_path = 'C:/Python-STL/letters/letter_sample_2D-1a_gray.png'
+image_path = 'C:/Python-STL/letters/letter_sample_2D-1a.png'
 image = cv2.imread(image_path)
 
 if image is None:
@@ -16,13 +16,30 @@ if image is None:
 # Convert to grayscale
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
+cv2.imshow('Grayscale Image', gray)
+cv2.waitKey(0)  # Wait for a key press to close the window
+cv2.destroyAllWindows()
+
 # Apply adaptive thresholding to get a binary image
-binary = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
+block_size = 11  # Must be an odd number
+C = 2  # Constant subtracted from the mean
+binary = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, block_size, C)
+
+cv2.imshow('Binary Image', binary)
+cv2.waitKey(0)  # Wait for a key press to close the window
+cv2.destroyAllWindows()
 
 # Apply morphological operations to enhance the binary image
-kernel = np.ones((3, 3), np.uint8)
+# Apply morphological operations to enhance the binary image
+kernel_size = (3, 5)  # Adjust the kernel size
+kernel = np.ones(kernel_size, np.uint8)
 binary = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
 binary = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
+
+# Display the binary image
+cv2.imshow('Binary Image', binary)
+cv2.waitKey(0)  # Wait for a key press to close the window
+cv2.destroyAllWindows()
 
 # Apply connected component analysis
 num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(binary, connectivity=8)
