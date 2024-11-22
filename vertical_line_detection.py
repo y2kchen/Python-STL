@@ -16,13 +16,13 @@ if image is None:
 # Convert to grayscale
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-cv2.imshow('Grayscale Image', gray)
-cv2.waitKey(0)  # Wait for a key press to close the window
-cv2.destroyAllWindows()
+# cv2.imshow('Grayscale Image', gray)
+# cv2.waitKey(0)  # Wait for a key press to close the window
+# cv2.destroyAllWindows()
 
 # Apply adaptive thresholding to get a binary image
-block_size = 11  # Must be an odd number
-C = 2  # Constant subtracted from the mean
+block_size = 31  # Must be an odd number
+C = 20  # Constant subtracted from the mean
 binary = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, block_size, C)
 
 cv2.imshow('Binary Image', binary)
@@ -31,7 +31,7 @@ cv2.destroyAllWindows()
 
 # Apply morphological operations to enhance the binary image
 # Apply morphological operations to enhance the binary image
-kernel_size = (3, 5)  # Adjust the kernel size
+kernel_size = (2, 2)  # Adjust the kernel size
 kernel = np.ones(kernel_size, np.uint8)
 binary = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
 binary = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
