@@ -21,7 +21,7 @@ gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 # cv2.destroyAllWindows()
 
 # Apply adaptive thresholding to get a binary image
-block_size = 31  # Must be an odd number
+block_size = 41  # Must be an odd number
 C = 20  # Constant subtracted from the mean
 binary = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, block_size, C)
 
@@ -30,8 +30,7 @@ cv2.waitKey(0)  # Wait for a key press to close the window
 cv2.destroyAllWindows()
 
 # Apply morphological operations to enhance the binary image
-# Apply morphological operations to enhance the binary image
-kernel_size = (2, 2)  # Adjust the kernel size
+kernel_size = (1, 1)  # Adjust the kernel size, (3,3) very blurred
 kernel = np.ones(kernel_size, np.uint8)
 binary = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
 binary = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)
@@ -41,8 +40,29 @@ cv2.imshow('Binary Image', binary)
 cv2.waitKey(0)  # Wait for a key press to close the window
 cv2.destroyAllWindows()
 
-# Apply connected component analysis
-num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(binary, connectivity=8)
+#1 Apply connected component analysis
+# num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(binary, connectivity=8)
+
+#2 Find contours
+# contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+#3 Find contours with hierarchy
+# contours, hierarchy = cv2.findContours(binary, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+
+#4 Distance transform
+dist_transform = cv2.distanceTransform(binary, cv2.DIST_L2, 5)
+ret, sure_fg = cv2.threshold(dist_transform, 0.7 * dist_transform.max(), 255, 0)
+sure_fg = np.uint8(sure_fg)
+unknown = cv2.subtract(binary, sure_fg)
+
+# Marker labelling
+ret, markers = cv2.connectedComponents(sure_fg)
+markers = markers + 1
+markers[unknown == 255] = 0
+
+# Apply watershed
+markers = cv2.watershed(image, markers)
+image[markers == -1] = [255, 0, 0]
 
 # Create a directory to save the extracted characters
 output_dir = 'extracted_characters'
@@ -51,11 +71,60 @@ os.makedirs(output_dir, exist_ok=True)
 # Initialize a counter for character images
 char_count = 0
 
-# Filter and save each character
-for i in range(1, num_labels):  # Start from 1 to skip the background
-    x, y, w, h, area = stats[i]
+# 2 is slightly better than 1, 3 and 2 are the same
+#1 Filter and save each character from connected component analysis
+# for i in range(1, num_labels):  # Start from 1 to skip the background
+#     x, y, w, h, area = stats[i]
+#     # Filter out small components
+#     if w > 10 and h > 10 and area > 50:  # Adjust the size and area thresholds as needed
+#         char_roi = binary[y:y+h, x:x+w]
+
+#         # Save the character image
+#         char_image_path = os.path.join(output_dir, f'char_{char_count}.png')
+#         cv2.imwrite(char_image_path, char_roi)
+#         char_count += 1
+
+#         # Draw bounding box around the character (optional for visualization)
+#         cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
+
+#2 Filter and save each character
+# for contour in contours:
+#     x, y, w, h = cv2.boundingRect(contour)
+#     # Filter out small components
+#     if w > 10 and h > 10:  # Adjust the size thresholds as needed
+#         char_roi = binary[y:y+h, x:x+w]
+
+#         # Save the character image
+#         char_image_path = os.path.join(output_dir, f'char_{char_count}.png')
+#         cv2.imwrite(char_image_path, char_roi)
+#         char_count += 1
+
+#         # Draw bounding box around the character (optional for visualization)
+#         cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
+
+#3 Filter and save each character
+# for i, contour in enumerate(contours):
+#     if hierarchy[0][i][3] == -1:  # Only consider external contours
+#         x, y, w, h = cv2.boundingRect(contour)
+#         # Filter out small components
+#         if w > 10 and h > 10:  # Adjust the size thresholds as needed
+#             char_roi = binary[y:y+h, x:x+w]
+
+#             # Save the character image
+#             char_image_path = os.path.join(output_dir, f'char_{char_count}.png')
+#             cv2.imwrite(char_image_path, char_roi)
+#             char_count += 1
+
+#             # Draw bounding box around the character (optional for visualization)
+#             cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
+
+#4 Filter and save each character
+for i in range(2, np.max(markers) + 1):  # Start from 2 to skip the background
+    mask = np.zeros_like(binary)
+    mask[markers == i] = 255
+    x, y, w, h = cv2.boundingRect(mask)
     # Filter out small components
-    if w > 10 and h > 10 and area > 50:  # Adjust the size and area thresholds as needed
+    if w > 10 and h > 10:  # Adjust the size thresholds as needed
         char_roi = binary[y:y+h, x:x+w]
 
         # Save the character image
